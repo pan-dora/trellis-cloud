@@ -1,0 +1,3 @@
+rootProject.name = 'trellis-cloud'
+include 'trellis-app-gcloud'
+include 'trellis-gcloud-pubsub'

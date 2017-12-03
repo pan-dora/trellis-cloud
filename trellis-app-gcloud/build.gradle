@@ -1,0 +1,111 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.google.cloud.tools:appengine-gradle-plugin:1.3.1'
+    }
+}
+
+apply plugin: 'com.google.cloud.tools.appengine'
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'signing'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = 'org.trellisldp'
+description = 'Trellis Application'
+mainClassName = 'org.trellisldp.app.gcloud.TrellisApplication'
+
+ext {
+    moduleName = "org.trellisldp.app"
+    vendor = 'Trellis LDP'
+    homepage = 'http://www.trellisldp.org'
+    docURL = 'http://www.trellisldp.org/apidocs'
+    license = 'Apache 2'
+
+    /* Dependencies */
+    trellisVocabularyVersion = '0.1.0'
+    trellisApiVersion = '0.3.0'
+
+    trellisAgentVersion = '0.2.1'
+    trellisBinaryVersion = '0.2.2'
+    trellisConstraintVersion = '0.2.2'
+    trellisHttpVersion = '0.3.2'
+    trellisIdVersion = '0.2.0'
+    trellisIoJenaVersion = '0.2.1'
+    trellisAuditVersion = '0.1.0'
+    trellisEventVersion = '0.1.0'
+    trellisWebacVersion = '0.2.0'
+
+    commonsRdfVersion = '0.3.0-incubating'
+    commonsCodecVersion = '1.11'
+    httpClientVersion = '4.5.2'
+    slf4jVersion = '1.7.25'
+    dropwizardVersion = '1.2.0'
+    activationApiVersion = '1.2.0'
+    jwtVersion = '0.9.0'
+    jaxbVersion = '2.3.0'
+
+    /* Testing */
+    apiguardianVersion = '1.0.0'
+    junitVersion = '5.0.1'
+    junitPlatformVersion = '1.0.1'
+    mockitoVersion = '2.11.0'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+}
+configurations {
+    buildToolsConfig
+}
+
+dependencies {
+    compile group: 'commons-codec', name: 'commons-codec', version: commonsCodecVersion
+    compile group: 'javax.activation', name: 'javax.activation-api', version: activationApiVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-auth', version: dropwizardVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: jwtVersion
+    compile group: 'org.apache.commons', name: 'commons-rdf-jena', version: commonsRdfVersion
+    compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+    compile group: 'org.trellisldp', name: 'trellis-agent', version: trellisAgentVersion
+    compile group: 'org.trellisldp', name: 'trellis-api', version: trellisApiVersion
+    compile group: 'org.trellisldp', name: 'trellis-audit', version: trellisAuditVersion
+    compile group: 'org.trellisldp', name: 'trellis-binary', version: trellisBinaryVersion
+    compile group: 'org.trellisldp', name: 'trellis-constraint-rules', version: trellisConstraintVersion
+    compile group: 'org.trellisldp', name: 'trellis-event-serialization', version: trellisEventVersion
+    compile project(':trellis-gcloud-pubsub')
+    compile group: 'org.trellisldp', name: 'trellis-http', version: trellisHttpVersion
+    compile group: 'org.trellisldp', name: 'trellis-id', version: trellisIdVersion
+    compile group: 'org.trellisldp', name: 'trellis-io-jena', version: trellisIoJenaVersion
+    compile group: 'org.trellisldp', name: 'trellis-vocabulary', version: trellisVocabularyVersion
+    compile group: 'org.trellisldp', name: 'trellis-webac', version: trellisWebacVersion
+
+    runtime group: 'javax.xml.bind', name: 'jaxb-api', version: jaxbVersion
+
+    testCompile group: 'org.apiguardian', name: 'apiguardian-api', version: apiguardianVersion
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-runner', version: junitPlatformVersion
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
+
+    buildToolsConfig 'org.trellisldp:trellis-build-tools:0.2.0'
+}
+
+task processBuildTools(type: Copy) {
+    from {
+        configurations.buildToolsConfig.collect {
+            zipTree(it).matching {
+                include 'checkstyle/*.xml'
+                include 'license/*.txt'
+            }
+        }
+    }
+    into 'build'
+}

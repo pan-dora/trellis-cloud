@@ -1,0 +1,5 @@
+task submoduleUpdate(type: Exec) {
+    description = 'Updates and merges submodules'
+    executable = 'git'
+    args = ['submodule','update','--remote','--merge']
+}

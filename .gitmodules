@@ -1,0 +1,4 @@
+
+[submodule "trellis-gcloud-pubsub"]
+	path = trellis-gcloud-pubsub
+	url = https://github.com/pan-dora/trellis-gcloud-pubsub.git
