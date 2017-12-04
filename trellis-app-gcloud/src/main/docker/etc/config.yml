@@ -30,13 +30,6 @@ partitions:
 namespaces:
     file: /opt/trellis/etc/namespaces.json
 
-zookeeper:
-    ensembleServers: zk-svc:2181
-
-kafka:
-    bootstrapServers: kafka-svc:9093
-    max.request.size: 5000000
-
 auth:
     webac:
         enabled: false

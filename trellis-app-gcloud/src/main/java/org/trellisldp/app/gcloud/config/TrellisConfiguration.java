@@ -41,12 +41,6 @@ public class TrellisConfiguration extends Configuration {
     private List<PartitionConfiguration> partitions;
 
     @NotNull
-    private KafkaConfiguration kafka;
-
-    @NotNull
-    private ZookeeperConfiguration zookeeper;
-
-    @NotNull
     private CORSConfiguration cors = new CORSConfiguration();
 
     @NotNull
@@ -122,42 +116,6 @@ public class TrellisConfiguration extends Configuration {
     @JsonProperty
     public void setDefaultName(final String name) {
         this.defaultName = name;
-    }
-
-    /**
-     * Set the kafka configuration
-     * @param config the Kafka configuration
-     */
-    @JsonProperty
-    public void setKafka(final KafkaConfiguration config) {
-        this.kafka = config;
-    }
-
-    /**
-     * Get the kafka configuration
-     * @return the kafka configuration
-     */
-    @JsonProperty
-    public KafkaConfiguration getKafka() {
-        return kafka;
-    }
-
-    /**
-     * Set the zookeeper configuration
-     * @param zookeeper the zookeeper configuration
-     */
-    @JsonProperty
-    public void setZookeeper(final ZookeeperConfiguration zookeeper) {
-        this.zookeeper = zookeeper;
-    }
-
-    /**
-     * Get the zookeeper configuration
-     * @return the zookeeper configuration
-     */
-    @JsonProperty
-    public ZookeeperConfiguration getZookeeper() {
-        return zookeeper;
     }
 
     /**

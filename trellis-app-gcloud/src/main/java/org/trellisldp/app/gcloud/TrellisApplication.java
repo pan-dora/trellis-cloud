@@ -82,7 +82,7 @@ public class TrellisApplication extends Application<TrellisConfiguration> {
 //        final NamespaceService namespaceService = new Namespaces(curator, new TreeCache(curator, ZNODE_NAMESPACES),
 //                config.getNamespaces().getFile());
 
-        final IOService ioService = new JenaIOService(namespaceService, TrellisUtils.getAssetConfiguration(config));
+//        final IOService ioService = new JenaIOService(namespaceService, TrellisUtils.getAssetConfiguration(config));
 
         final BinaryService binaryService = new DefaultBinaryService(idService, partitions,
                 asList(new FileResolver(TrellisUtils.getBinaryDataPaths(partitions))));
@@ -90,16 +90,16 @@ public class TrellisApplication extends Application<TrellisConfiguration> {
         getAuthFilters(config).ifPresent(filters -> environment.jersey().register(new ChainedAuthFilter<>(filters)));
 
         // Resource matchers
-        environment.jersey().register(new RootResource(ioService, partitionUrls, getServerProperties(config)));
-        environment.jersey().register(new LdpResource(resourceService, ioService, binaryService, partitionUrls));
+//        environment.jersey().register(new RootResource(ioService, partitionUrls, getServerProperties(config)));
+//        environment.jersey().register(new LdpResource(resourceService, ioService, binaryService, partitionUrls));
 
         // Filters
         environment.jersey().register(new AgentAuthorizationFilter(new SimpleAgent(), emptyList()));
         environment.jersey().register(new CacheControlFilter(config.getCacheMaxAge()));
 
         // Authorization
-        getWebacConfiguration(config).ifPresent(webac -> environment.jersey().register(new WebAcFilter(
-                        partitionUrls, asList("Authorization"), new WebACService(resourceService))));
+//        getWebacConfiguration(config).ifPresent(webac -> environment.jersey().register(new WebAcFilter(
+//                        partitionUrls, asList("Authorization"), new WebACService(resourceService))));
 
         // CORS
         getCorsConfiguration(config).ifPresent(cors -> environment.jersey().register(
